@@ -2,23 +2,26 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 
-function Login() {
+export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+    const router = useRouter()
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
         if (email && password) {
-            axios.post(`api/auth/login`, {
+            axios.post('/api/auth/login', {
                 email,
                 password
             })
                 .then(res => {
                     setEmail('')
                     setPassword('')
-                    // redirectToNextPage()
+                    redirectToDashboard(res.data.role)
                 })
                 .catch(err => {
                     console.error(err)
@@ -26,26 +29,51 @@ function Login() {
         }
     }
 
+    const redirectToDashboard = (role) => {
+        const url = ''
+        switch (role) {
+            case 'ADMIN':
+                url = 'admin'
+                break
+            case 'ARTIST':
+                url = 'artists'
+                break
+            default:
+                url = 'visitors'
+        }
+        
+        console.log(url)
+        router.push(`/dashboard/${url}`)
+    }
+
     return (
-        <div className=''>
+        <div className='flex flex-col items-center justify-center w-full h-screen space-y-8 lg-flex-row'>
             <h1 className=''>Log in</h1>
             <p className=''>Sign in to access your dashboard.</p>
-            <div className=''>
-                <input
-                    className=''
-                    placeholder='Email'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoCapitalize='none'
-                />
-                <input
-                    className=''
-                    placeholder='Password'
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
-                />
+            <form className=''>
+                <div>
+                    <label className='' htmlFor='email'>Email</label>
+                    <input
+                        id='email'
+                        name='email'
+                        className=''
+                        placeholder='you@example.com'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        autoCapitalize='none'
+                    />
+                </div>
+                <div>
+                    <label className='' htmlFor='password'>Password</label>
+                    <input
+                        id='password'
+                        name='password'
+                        className=''
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
                 <div className=''>
                     <div className={`${!showPassword ? '' : 'hidden'}`} onClick={() => setShowPassword(!showPassword)}>
                         <Image
@@ -71,10 +99,11 @@ function Login() {
                 <button
                     className=''
                     onClick={handleSubmit}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
                 >
                     Log in
                 </button>
-            </div>
+            </form>
             <div className=''>
                 <p className=''>Don't yet have an account?</p>
                 <Link className='' href='/register'>Sign Up</Link>
@@ -82,5 +111,3 @@ function Login() {
         </div>
     );
 }
-
-export default Login;

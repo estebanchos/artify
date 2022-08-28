@@ -4,11 +4,19 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 const bcrypt = require('bcryptjs')
 
-const secret = process.env.SECRET
+const secret = process.env.JWT_KEY
 
 export default async function (req, res) {
+    if (req.method === 'POST') {
+        return await login(req, res);
+    } else {
+        return res.status(405).json({ message: 'Method not allowed', success: false });
+    }
+}
+
+// ****** handlers ********
+async function login(req, res) {
     const { email, password } = req.body
-    console.log(email, password)
 
     // validate inputs
     if (!email || !password) return res.status(400).json({
@@ -51,6 +59,8 @@ export default async function (req, res) {
     })
 
     res.setHeader('Set-Cookie', serialized)
-    res.status(200).send('Successful login')
-
+    res.status(200).json({
+        role: userFound?.role,
+        success: false
+    })
 }
