@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-const secret = process.env.SECRET
+const secret = process.env.JWT_KEY
 
 export default function middleware(req) {
     const { cookies } = req
