@@ -1,0 +1,34 @@
+.header {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+}
+
+.headerNav {
+    padding: 1rem;
+    width: 95%;
+    border-bottom: 1px solid grey;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navLink {
+    font-size: 1.05rem;
+    margin: 0 1rem;
+    transition: all .2s ease-in-out
+}
+
+.navLink:hover {
+    transform: scale(1.1)
+}
+
+.navButton {
+    font-size: 1.05rem;
+    margin: 0 1rem;
+    transition: all .2s ease-in-out
+}
+
+.navButton:hover {
+    transform: scale(1.1)
+}

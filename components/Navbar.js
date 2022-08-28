@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import AppContext from "../context/AppContext";
+import styles from '../styles/Navbar.module.css'
 
 function Navbar() {
     const value = useContext(AppContext)
@@ -13,26 +14,32 @@ function Navbar() {
 
     const logout = () => {
         axios.post('/api/auth/logout')
-        .then(_res => {
-            setIsAuthenticated(false)
-            setRole(null)
-            router.push('/')
-        })
-        .catch(err => console.error(err))
+            .then(_res => {
+                setIsAuthenticated(false)
+                setRole(null)
+                router.push('/')
+            })
+            .catch(err => console.error(err))
     }
 
     return (
-        <div className='container flex justify-end h-10' >
-            <div className='flex items-center w-1/4 justify-evenly'>
-                <Link href='/'>Home</Link>
-                <Link href='/dashboard'>Dashboard</Link>
+        <header className={styles.header}>
+            <nav className={styles.headerNav}>
+                <Link href='/'>
+                    <a className={styles.navLink}>Home</a>
+                </Link>
+                <Link href='/dashboard'>
+                    <a className={styles.navLink}>Dashboard</a>
+                </Link>
                 {!isAuthenticated ?
-                    <Link href='/login'>Login</Link>
+                    <Link href='/login'>
+                        <a className={styles.navLink}>Login</a>
+                    </Link>
                     :
-                    <button onClick={logout}>Logout</button>    
+                    <button className={styles.navButton} onClick={logout}>Logout</button>
                 }
-            </div>
-        </div>
+            </nav>
+        </header>
     );
 }
 
