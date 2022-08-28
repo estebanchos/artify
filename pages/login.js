@@ -13,6 +13,7 @@ export default function Login() {
     const router = useRouter()
     const value = useContext(AppContext)
     let setIsAuthenticated = value.setIsAuthenticated
+    let setRole = value.setRole
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -24,8 +25,9 @@ export default function Login() {
                 .then(res => {
                     setEmail('')
                     setPassword('')
-                    redirectToDashboard(res.data.role)
                     setIsAuthenticated(true)
+                    setRole(res.data.role)
+                    redirectToDashboard(res.data.role)
                 })
                 .catch(err => console.error(err))
         }
@@ -35,15 +37,18 @@ export default function Login() {
         const url = ''
         switch (role) {
             case 'ADMIN':
-                url = 'admin'
+                url = '/dashboard/admin'
                 break
             case 'ARTIST':
-                url = 'artists'
+                url = '/dashboard/artists'
+                break
+            case 'VISITOR':
+                url = '/dashboard/visitors'
                 break
             default:
-                url = 'visitors'
+                url = '/login'
         }
-        router.push(`/dashboard/${url}`)
+        router.push(`${url}`)
     }
 
     return (

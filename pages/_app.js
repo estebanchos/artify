@@ -5,10 +5,11 @@ import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [role, setRole] = useState(null)
 
   return (
     <AppContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated }}
+      value={{ isAuthenticated, setIsAuthenticated, role, setRole }}
     >
       <Layout>
         <Component {...pageProps} />

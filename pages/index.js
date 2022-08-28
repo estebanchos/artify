@@ -14,6 +14,9 @@ export default function Home() {
         <h1 className="text-3xl font-bold">
           Welcome to Artify
         </h1>
+        <h2 className="py-3 text-xl">
+          Your art management tool
+        </h2>
       </main>
 
     </div>

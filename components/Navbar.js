@@ -8,12 +8,14 @@ function Navbar() {
     const value = useContext(AppContext)
     let isAuthenticated = value.isAuthenticated
     let setIsAuthenticated = value.setIsAuthenticated
+    let setRole = value.setRole
     const router = useRouter()
 
     const logout = () => {
         axios.post('/api/auth/logout')
         .then(_res => {
             setIsAuthenticated(false)
+            setRole(null)
             router.push('/')
         })
         .catch(err => console.error(err))
