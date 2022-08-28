@@ -61,6 +61,6 @@ async function login(req, res) {
     res.setHeader('Set-Cookie', serialized)
     res.status(200).json({
         role: userFound?.role,
-        success: false
+        success: true
     })
 }

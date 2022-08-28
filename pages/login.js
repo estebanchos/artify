@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import AppContext from '../context/AppContext';
 
 
 export default function Login() {
@@ -10,6 +11,8 @@ export default function Login() {
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const router = useRouter()
+    const value = useContext(AppContext)
+    let setIsAuthenticated = value.setIsAuthenticated
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -22,10 +25,9 @@ export default function Login() {
                     setEmail('')
                     setPassword('')
                     redirectToDashboard(res.data.role)
+                    setIsAuthenticated(true)
                 })
-                .catch(err => {
-                    console.error(err)
-                })
+                .catch(err => console.error(err))
         }
     }
 
@@ -41,8 +43,6 @@ export default function Login() {
             default:
                 url = 'visitors'
         }
-        
-        console.log(url)
         router.push(`/dashboard/${url}`)
     }
 
