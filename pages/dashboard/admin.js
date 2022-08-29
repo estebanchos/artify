@@ -2,30 +2,30 @@ import { Card } from 'antd';
 import { useState } from 'react';
 import ArtUpload from '../../components/ArtUpload';
 
-const tabList = [
-    {
-        key: 'tab1',
-        tab: 'Browse Artists',
-    },
-    {
-        key: 'tab2',
-        tab: 'Add Art',
-    },
-    {
-        key: 'tab3',
-        tab: 'Manage',
-    },
-];
-const contentList = {
-    tab1: <p>Dropdown and list</p>,
-    tab2: <ArtUpload />,
-    tab3: <p>Suspend/activate users</p>,
-};
-
 function Admin() {
     const [activeTabKey1, setActiveTabKey1] = useState('tab1');
     const onTab1Change = (key) => {
         setActiveTabKey1(key);
+    };
+
+    const tabList = [
+        {
+            key: 'tab1',
+            tab: 'Browse Artists',
+        },
+        {
+            key: 'tab2',
+            tab: 'Add Art',
+        },
+        {
+            key: 'tab3',
+            tab: 'Manage',
+        },
+    ];
+    const contentList = {
+        tab1: <p>Dropdown and list</p>,
+        tab2: <ArtUpload />,
+        tab3: <p>Suspend/activate users</p>,
     };
 
     return (
@@ -46,6 +46,7 @@ function Admin() {
                 onTabChange={(key) => {
                     onTab1Change(key);
                 }}
+            // loading={true}
             >
                 {contentList[activeTabKey1]}
             </Card>

@@ -1,0 +1,68 @@
+.formContainer {
+    font-size: 1rem;
+}
+
+.form {
+    margin-left: 1rem;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+
+.dateContainer {
+    width: 20rem;
+}
+
+.label {
+    font-weight: 600;
+    color: grey;
+}
+
+.titleInput {
+    border: 1px solid #d9d9d9;
+    width: 20rem;
+    padding: 4px 11px;
+    transition: all .2s ease-in-out;
+}
+
+.titleInput:hover, .titleInput:active {
+    border-color: #40a9ff;
+}
+
+.imageInput {
+    display: none;
+}
+
+.labelImage {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 10rem;
+    border: 1px solid #d9d9d9;
+    padding: 4px 11px;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.labelImage:hover {
+    border-color: #40a9ff;
+}
+
+.imageName{
+    display: flex;
+    align-items: center;
+    margin: 0.5rem;
+}
+
+.successIcon {
+    margin: 0 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.buttonContainer {
+    margin-top: 2rem;
+}

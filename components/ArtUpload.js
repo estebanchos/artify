@@ -1,14 +1,18 @@
 import axios from "axios"
 import { useState } from "react"
+import { Button, DatePicker } from 'antd';
+import { UploadOutlined, PictureOutlined, CheckCircleOutlined } from '@ant-design/icons'
+import styles from '../styles/ArtUpload.module.css'
 
 function ArtUpload() {
     const [title, setTitle] = useState('')
     const [creationDate, setCreationDate] = useState('')
+    const [imageName, setImageName] = useState(null)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         const form = e.currentTarget
-        const fileInput = Array.from(form.elements).find(({ name }) => name === 'image')
+        const fileInput = Array.from(form.elements).find(({ type }) => type === 'file')
 
         const formData = new FormData()
 
@@ -31,48 +35,68 @@ function ArtUpload() {
                 imageSrc: imageSrc
             }
         )
+            .then(_res => {
 
+            })
+            .catch(err => console.error(err))
+    }
+
+    const onChangeImage = (e) => {
+        setImageName(e.target.files[0]?.name)
     }
 
     return (
-        <section>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label className='' htmlFor='title'>Title</label>
+        <section className={styles.formContainer}>
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.inputContainer}>
+                    <label className={styles.label} htmlFor='title'>Art Title</label>
                     <input
                         id='title'
                         name='title'
-                        className=''
+                        className={styles.titleInput}
                         placeholder='Mona Lisa'
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         autoCapitalize='none'
                     />
                 </div>
-                <div>
-                    <label className='' htmlFor='creationDate'>Creation Date</label>
-                    <input
-                        id='creationDate'
-                        name='creationDate'
-                        className=''
-                        placeholder='15-02-1503'
-                        value={creationDate}
-                        onChange={(e) => setCreationDate(e.target.value)}
-                        autoCapitalize='none'
-                    />
+                <div className={styles.inputContainer}>
+                    <label className={styles.label} htmlFor='creationDate'>Creation Date</label>
+                    <div className={styles.dateContainer}>
+                        <DatePicker
+                            onChange={(_date, dateString) => {
+                                setCreationDate(dateString);
+                            }}
+                            size='large'
+                        />
+                    </div>
                 </div>
-                <div>
-                    <label className='' htmlFor='image'>Creation Date</label>
+                <div className={styles.inputContainer}>
+                    <span className={styles.label}>Image</span>
                     <input
                         id='image'
                         name='image'
+                        accept="image/*"
                         type='file'
-                        className=''
-                    // value={email}
-                    // onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Choose Image"
+                        className={styles.imageInput}
+                        onChange={onChangeImage}
                     />
+                    <label className={styles.labelImage} htmlFor='image'><PictureOutlined /> Choose Image</label>
+                    {imageName ?
+                        <span className={styles.imageName}><span className={styles.successIcon}><CheckCircleOutlined /></span>{imageName}</span>
+                        : ''}
                 </div>
-                <button>Upload Image</button>
+                <div className={styles.buttonContainer}>
+                    <Button
+                        onClick={handleSubmit}
+                        shape="round"
+                        icon={<UploadOutlined />}
+                        size='large'
+                    >
+                        Upload
+                    </Button>
+                </div>
             </form>
         </section>
     );
