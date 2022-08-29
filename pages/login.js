@@ -4,6 +4,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import AppContext from '../context/AppContext';
+import styles from '../styles/Login.module.css'
 
 
 export default function Login() {
@@ -52,28 +53,29 @@ export default function Login() {
     }
 
     return (
-        <div className='flex flex-col items-center justify-center w-full h-screen space-y-8 lg-flex-row'>
-            <h1 className=''>Log in</h1>
-            <p className=''>Sign in to access your dashboard.</p>
-            <form className=''>
-                <div>
-                    <label className='' htmlFor='email'>Email</label>
+        <div className={styles.login}>
+            <h1 className={styles.loginTitle}>Log in</h1>
+            <p className={styles.loginCopy}>Sign in to access your dashboard.</p>
+            <form className={styles.loginContainer}>
+                <div className={styles.inputContainer}>
+                    <label className={styles.loginLabel} htmlFor='email'>Email</label>
                     <input
                         id='email'
                         name='email'
-                        className=''
+                        className={styles.loginInput}
                         placeholder='you@example.com'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         autoCapitalize='none'
                     />
                 </div>
-                <div>
-                    <label className='' htmlFor='password'>Password</label>
+                <div className={styles.inputContainer}>
+                    <label className={styles.loginLabel} htmlFor='password'>Password</label>
                     <input
                         id='password'
                         name='password'
-                        className=''
+                        placeholder='******'
+                        className={styles.loginInput}
                         type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -102,16 +104,18 @@ export default function Login() {
                     </div>
                 </div>
                 <button
-                    className=''
+                    className={styles.button}
                     onClick={handleSubmit}
                     onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
                 >
                     Log in
                 </button>
             </form>
-            <div className=''>
-                <p className=''>Don't yet have an account?</p>
-                <Link className='' href='/register'>Sign Up</Link>
+            <div className={styles.register}>
+                <p className={styles.registerCopy}>Don't yet have an account?</p>
+                <Link href='/register'>
+                    <a className={styles.registerLink}>Sign Up</a>
+                    </Link>
             </div>
         </div>
     );

@@ -1,0 +1,87 @@
+.login {
+    border: 1px solid #bfbdbb;
+    box-shadow: 0 0 5px #bfbdbb;
+    border-radius: 1rem;
+    width: 80%;
+    margin: 4rem auto;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 35rem;
+}
+
+.loginTitle {
+    margin: 1rem 0;
+    font-size: 2.25rem;
+}
+
+.loginCopy {
+    margin: 0.5rem 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.15rem;
+}
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+}
+.loginLabel {
+    color: grey;
+}
+
+.loginInput {
+    margin: 0.2rem 0 0.75rem 0;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 1px solid #bfbdbb;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.button {
+    border-radius: 3rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 0;
+    background-color: grey;
+    font-weight: 600;
+    color: #fff;
+    font-size: 1rem;
+    transition: all .2s ease-in-out
+}
+
+.button:hover {
+    transform: scale(1.1)
+}
+
+.register {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registerCopy {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.registerLink {
+    margin: 0.5rem 0 1rem 0;
+    font-weight: 600;
+    text-decoration: underline;
+    font-size: 1rem;
+}
