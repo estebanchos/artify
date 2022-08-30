@@ -2,28 +2,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { Button, Card, Dropdown, Menu, Space } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
-
-
-// const menu = (
-//     <Menu
-//         onClick={handleClick}
-//         items={[
-//             {
-//                 label: '1st menu item',
-//                 key: '1',
-//             },
-//             {
-//                 label: '2nd menu item',
-//                 key: '2',
-//             },
-//             {
-//                 label: '3rd menu item',
-//                 key: '3',
-//             },
-//         ]}
-//     />
-// );
+import styles from '../styles/ManageUsers.module.css'
 
 function ManageUsers() {
     const [users, setUsers] = useState([])
@@ -71,33 +50,38 @@ function ManageUsers() {
     }
 
     return (
-        <section>
-            <h2>Suspend or reactivate users</h2>
-            <Dropdown overlay={menu} trigger='click'>
-                <Button>
-                    <Space>
-                        Select a User
-                        <DownOutlined />
-                    </Space>
-                </Button>
-            </Dropdown>
+        <section className={styles.container}>
+            <h2 className={styles.title}>Suspend or reactivate users</h2>
+            <div className={styles.dropdownContainer}>
+                <Dropdown overlay={menu} trigger='click'>
+                    <Button>
+                        <Space>
+                            Select a User
+                            <DownOutlined />
+                        </Space>
+                    </Button>
+                </Dropdown>
+            </div>
             {selectedUser ?
                 <Card title={selectedUser.name}>
-                    <p>Role: {selectedUser.role}</p>
-                    <p>Status: {selectedUser.suspended ? 'Suspended' : 'Active'}</p>
-                    {userIsSuspended ?
-                        <Button onClick={handleUserUpdate}>
-                            Reactivate Account
-                        </Button>
-                        :
-                        <Button onClick={handleUserUpdate} danger>
-                            Suspend Account
-                        </Button>
-                }
-                    {/* <button onClick={handleUserUpdate}>{selectedUser.suspended ? 'Reactivate Account' : 'Suspend Account'}</button> */}
+                    <p><span className={styles.cardLabel}>Role: </span><span className={styles.cardContent}>{selectedUser.role}</span></p>
+                    <p><span className={styles.cardLabel}>Status: </span><span className={styles.cardContent}>{selectedUser.suspended ? 'Suspended' : 'Active'}</span></p>
+                    <div className={styles.buttonContainer}>
+                        {userIsSuspended ?
+                            <Button onClick={handleUserUpdate} size='large'>
+                                Reactivate Account
+                            </Button>
+                            :
+                            <Button onClick={handleUserUpdate} size='large' danger>
+                                Suspend Account
+                            </Button>
+                        }
+                        {/* <button onClick={handleUserUpdate}>{selectedUser.suspended ? 'Reactivate Account' : 'Suspend Account'}</button> */}
+                    </div>
                 </Card>
                 : ''}
-        </section>
+
+        </section >
     );
 }
 

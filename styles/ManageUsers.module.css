@@ -1,0 +1,24 @@
+.container {
+    font-size: 1rem;
+}
+
+.title {
+    font-size: 1.5rem;
+}
+
+.dropdownContainer {
+    margin-bottom: 1.5rem;
+}
+
+.cardLabel {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.cardContent {
+    font-size: 1rem;
+}
+
+.buttonContainer {
+    margin-top: 3rem;
+}
