@@ -5,9 +5,7 @@ import bcrypt from 'bcryptjs'
 export default async function (req, res) {
     if (req.method === 'POST') {
         return await createUser(req, res);
-    } else if (req.method === 'GET') {
-        return await readAll(req, res)
-    }else {
+    } else {
         return res.status(405).json({ message: 'Method not allowed', success: false });
     }
 }
@@ -31,14 +29,4 @@ async function createUser(req, res) {
         res.status(500).json({ error: "Error adding entry", success: false });
     }
 
-}
-
-async function readAll(_req, res) {
-    try {
-        const allUsers = await prisma.user.findMany()
-        return res.status(200).json(allUsers, { success: true })
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Error reading from database", success: false });
-    }
 }
