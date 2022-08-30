@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import jwt from "jsonwebtoken";
 const prisma = new PrismaClient()
 
 // ****** Route + behaviour ********
@@ -16,16 +17,44 @@ export default async function handler(req, res) {
 // ****** handlers ********
 
 async function addArt(req, res) {
+    // verify user is logged in
+    const token = req.cookies.artify
+    if (!token) {
+        return res.status(401).json({ message: 'Login required', success: false })
+    }
+    // verify user is authorized to proceed
+    const user = jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+        if (err) {
+            res.status(401).json({ message: 'Unauthorized', success: false })
+            return null
+        }
+        return decoded
+    })
+    if (user.role === 'VISITOR') res.status(401).json({ message: 'Unauthorized', success: false })
+
+    // user has email and role
+    // find user to get ID
+    if (user.role === 'ARTIST') {
+        const userFound = await prisma.user.findUnique({
+            where: {
+                email: user.email
+            },
+        })
+        const artistId = userFound.id
+    }
     const { title, creationDate, imageSrc } = req.body
+    // temporal id for testing with artist ldavinci
+    const artistId = 1
     try {
         const newEntry = await prisma.art.create({
             data: {
                 title,
                 creationDate,
-                imageSrc
-                // pending adding artistId
+                imageSrc,
+                artistId
             }
         })
+        console.log(newEntry)
         return res.status(200).json({ success: true })
     } catch (err) {
         console.error('Request error', err)

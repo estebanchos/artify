@@ -1,8 +1,22 @@
 import axios from "axios"
 import { useState } from "react"
-import { Button, DatePicker } from 'antd';
+import { Button, DatePicker, notification } from 'antd';
 import { UploadOutlined, PictureOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import styles from '../styles/ArtUpload.module.css'
+
+const uploadNotification = (type) => {
+    if (type === 'success') {
+        notification[type]({
+            message: 'Success!',
+            description: 'Art has been uploaded successfully.'
+        })
+        return
+    }
+    notification['error']({
+        message: 'Error!',
+        description: 'The art was not uploaded.'
+    })
+}
 
 function ArtUpload() {
     const [title, setTitle] = useState('')
@@ -11,9 +25,9 @@ function ArtUpload() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const form = e.currentTarget
-        const fileInput = Array.from(form.elements).find(({ type }) => type === 'file')
 
+        const form = e.currentTarget
+        const fileInput = Array.from(form.elements).find(({ name }) => name === 'image')
         const formData = new FormData()
 
         for (const file of fileInput.files) {
@@ -31,12 +45,16 @@ function ArtUpload() {
         axios.post('/api/art',
             {
                 title: title,
-                creationDate: String(creationDate),
+                creationDate: creationDate,
                 imageSrc: imageSrc
             }
         )
-            .then(_res => {
-
+            .then(res => {
+                if (res.data.success) {
+                    uploadNotification('success')
+                } else {
+                    uploadNotification('error')
+                }
             })
             .catch(err => console.error(err))
     }
@@ -78,7 +96,6 @@ function ArtUpload() {
                         name='image'
                         accept="image/*"
                         type='file'
-                        placeholder="Choose Image"
                         className={styles.imageInput}
                         onChange={onChangeImage}
                     />
@@ -87,16 +104,17 @@ function ArtUpload() {
                         <span className={styles.imageName}><span className={styles.successIcon}><CheckCircleOutlined /></span>{imageName}</span>
                         : ''}
                 </div>
-                <div className={styles.buttonContainer}>
+                <button><UploadOutlined /> Upload</button>
+                {/* <div className={styles.buttonContainer}>
                     <Button
-                        onClick={handleSubmit}
+                        // onClick={handleSubmit}
                         shape="round"
                         icon={<UploadOutlined />}
                         size='large'
                     >
                         Upload
                     </Button>
-                </div>
+                </div> */}
             </form>
         </section>
     );
