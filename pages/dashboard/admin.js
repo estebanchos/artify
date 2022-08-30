@@ -1,6 +1,7 @@
 import { Card } from 'antd';
 import { useState } from 'react';
 import ArtUpload from '../../components/ArtUpload';
+import ManageUsers from '../../components/ManageUsers';
 
 function Admin() {
     const [activeTabKey1, setActiveTabKey1] = useState('tab1');
@@ -15,7 +16,7 @@ function Admin() {
         },
         {
             key: 'tab2',
-            tab: 'Add Art',
+            tab: 'Upload Art',
         },
         {
             key: 'tab3',
@@ -25,7 +26,7 @@ function Admin() {
     const contentList = {
         tab1: <p>Dropdown and list</p>,
         tab2: <ArtUpload />,
-        tab3: <p>Suspend/activate users</p>,
+        tab3: <ManageUsers />,
     };
 
     return (
@@ -46,7 +47,6 @@ function Admin() {
                 onTabChange={(key) => {
                     onTab1Change(key);
                 }}
-            // loading={true}
             >
                 {contentList[activeTabKey1]}
             </Card>

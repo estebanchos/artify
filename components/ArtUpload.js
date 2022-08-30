@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState } from "react"
-import { Button, DatePicker, notification } from 'antd';
+import { DatePicker, notification } from 'antd';
 import { UploadOutlined, PictureOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import styles from '../styles/ArtUpload.module.css'
 
@@ -104,16 +104,8 @@ function ArtUpload() {
                         <span className={styles.imageName}><span className={styles.successIcon}><CheckCircleOutlined /></span>{imageName}</span>
                         : ''}
                 </div>
-                <button><UploadOutlined /> Upload</button>
+                <button className=''><UploadOutlined /> Upload</button>
                 {/* <div className={styles.buttonContainer}>
-                    <Button
-                        // onClick={handleSubmit}
-                        shape="round"
-                        icon={<UploadOutlined />}
-                        size='large'
-                    >
-                        Upload
-                    </Button>
                 </div> */}
             </form>
         </section>

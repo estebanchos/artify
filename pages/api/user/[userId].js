@@ -22,5 +22,11 @@ async function updateSuspension(req, res) {
             suspended: suspended
         }
     })
-    res.status(200).json({ updatedUser, success: true })
+    const returnUpdatedUser = {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        role: updatedUser.role,
+        suspended: updatedUser.suspended
+    }
+    res.status(200).json({ returnUpdatedUser, success: true })
 }

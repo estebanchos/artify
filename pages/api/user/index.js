@@ -12,7 +12,16 @@ export default async function (req, res) {
 async function readAllUsers(_req, res) {
     try {
         const allUsers = await prisma.user.findMany()
-        return res.status(200).json(allUsers, { success: true })
+        const returnAllUsers = allUsers.map(user => {
+            return {
+                id: user.id,
+                name: user.name,
+                role: user.role,
+                suspended: user.suspended
+            }
+        })
+
+        return res.status(200).json(returnAllUsers, { success: true })
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Error reading from database", success: false });
