@@ -1,8 +1,8 @@
-import { DownOutlined } from '@ant-design/icons';
-import { Button, Card, Dropdown, Menu, Space } from 'antd';
+import { Button, Card, Select } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styles from '../styles/ManageUsers.module.css'
+const { Option } = Select
 
 function ManageUsers() {
     const [users, setUsers] = useState([])
@@ -21,22 +21,10 @@ function ManageUsers() {
             .catch(err => console.error(err))
     }
 
-    const handleSelectedUser = (e) => {
-        setSelectedUser(users.find(user => user.id === Number(e.key)))
-        setUserIsSuspended(users.find(user => user.id === Number(e.key)).suspended)
+    const handleSelectedUser = (value) => {
+        setSelectedUser(users.find(user => user.id === Number(value)))
+        setUserIsSuspended(users.find(user => user.id === Number(value)).suspended)
     }
-
-    const menu = (
-        <Menu
-            onClick={handleSelectedUser}
-            items={users?.map(user => {
-                return {
-                    label: `${user.name} - ${user.role}`,
-                    key: user.id
-                }
-            })}
-        />
-    );
 
     const handleUserUpdate = () => {
         axios.patch(`/api/user/${selectedUser.id}`, {
@@ -53,14 +41,24 @@ function ManageUsers() {
         <section className={styles.container}>
             <h2 className={styles.title}>Suspend or reactivate users</h2>
             <div className={styles.dropdownContainer}>
-                <Dropdown overlay={menu} trigger='click'>
-                    <Button>
-                        <Space>
-                            Select a User
-                            <DownOutlined />
-                        </Space>
-                    </Button>
-                </Dropdown>
+                <Select
+                    showSearch
+                    size="large"
+                    placeholder="Select a user"
+                    optionFilterProp="children"
+                    onChange={handleSelectedUser}
+                    filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
+                >
+                    {users?.map(user => {
+                        return (
+                            <Option
+                                key={user.id}
+                                value={user.id}>
+                                {user.name} - {user.role}
+                            </Option>
+                        )
+                    })}
+                </Select>
             </div>
             {selectedUser ?
                 <Card title={selectedUser.name}>
