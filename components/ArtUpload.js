@@ -4,7 +4,6 @@ import { DatePicker, notification } from 'antd';
 import { UploadOutlined, PictureOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import styles from '../styles/ArtUpload.module.css'
 import AppContext from "../context/AppContext";
-import Head from "next/head";
 
 const uploadNotification = (type) => {
     if (type === 'success') {
@@ -25,7 +24,7 @@ function ArtUpload() {
     const [creationDate, setCreationDate] = useState('')
     const [imageName, setImageName] = useState(null)
     const [artists, setArtists] = useState([])
-    const [artistId, setArtistId] = useState(null)
+    const [artistId, setArtistId] = useState('')
 
     const value = useContext(AppContext)
     const role = value.role
