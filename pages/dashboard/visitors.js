@@ -1,6 +1,7 @@
 import { Card } from 'antd';
 import Head from 'next/head';
 import { useState } from 'react';
+import BrowseArt from "../../components/BrowseArt";
 
 const tabList = [
     {
@@ -10,8 +11,7 @@ const tabList = [
 
 ];
 const contentList = {
-    tab1: <p>Dropdown and list</p>,
-
+    tab1: <BrowseArt />,
 };
 
 function Visitors() {

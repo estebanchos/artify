@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-        return await getSingleArtist(req, res)
+        return await getArtistPortfolio(req, res)
     } else {
         return res.status(405).json({ message: 'Method not allowed', success: false });
     }
@@ -12,12 +12,12 @@ export default async function handler(req, res) {
 
 // ****** handlers ********
 
-async function getSingleArtist(req, res) {
+async function getArtistPortfolio(req, res) {
     const { artistId } = req.query
-    const artistFound = await prisma.user.findUnique({
+    const artistPortfolio = await prisma.art.findMany({
         where: {
-            id: Number(artistId)
+            artistId: Number(artistId)
         }
     })
-    res.status(200).json({ artistFound, success: true })
+    res.status(200).json({ artistPortfolio, success: true })
 }

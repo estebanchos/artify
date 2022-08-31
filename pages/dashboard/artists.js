@@ -2,6 +2,7 @@ import ArtUpload from "../../components/ArtUpload";
 import Head from 'next/head';
 import { Card } from 'antd';
 import { useState } from 'react';
+import BrowseArt from "../../components/BrowseArt";
 
 const tabList = [
     {
@@ -14,7 +15,7 @@ const tabList = [
     },
 ];
 const contentList = {
-    tab1: <p>Dropdown and list</p>,
+    tab1: <BrowseArt />,
     tab2: <ArtUpload />,
 };
 

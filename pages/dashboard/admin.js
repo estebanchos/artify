@@ -3,12 +3,11 @@ import Head from 'next/head';
 import { useState } from 'react';
 import ArtUpload from '../../components/ArtUpload';
 import ManageUsers from '../../components/ManageUsers';
+import BrowseArt from "../../components/BrowseArt";
 
 function Admin() {
     const [activeTabKey1, setActiveTabKey1] = useState('tab1');
-    const onTab1Change = (key) => {
-        setActiveTabKey1(key);
-    };
+    const onTab1Change = (key) => setActiveTabKey1(key);
 
     const tabList = [
         {
@@ -25,7 +24,7 @@ function Admin() {
         },
     ];
     const contentList = {
-        tab1: <p>Dropdown and list</p>,
+        tab1: <BrowseArt />,
         tab2: <ArtUpload />,
         tab3: <ManageUsers />,
     };
