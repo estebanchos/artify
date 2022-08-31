@@ -34,21 +34,20 @@ export default function BrowseArt() {
             .catch(err => console.error(err))
     }
 
-    const onChange = (value) => {
+    const onArtistChange = (value) => {
         setSelectedArtistId(value);
     };
 
     return (
         <section className={styles.container}>
             <h2 className={styles.title}>Explore art on Artify</h2>
-            {/* <p className={styles.label}>Choose an Artist</p> */}
             <div className={styles.exploreContainer}>
                 <Select
                     showSearch
                     size="large"
                     placeholder="Select an artist"
                     optionFilterProp="children"
-                    onChange={onChange}
+                    onChange={onArtistChange}
                     filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
                 >
                     {artists?.map(artist => {

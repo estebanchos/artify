@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import { DatePicker, notification } from 'antd';
+import { DatePicker, notification, Select } from 'antd';
 import { UploadOutlined, PictureOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import styles from '../styles/ArtUpload.module.css'
 import AppContext from "../context/AppContext";
@@ -81,6 +81,10 @@ function ArtUpload() {
             .catch(err => console.error(err))
     }
 
+    const onArtistChange = (value) => {
+        setArtistId(value);
+    };
+
     const onChangeImage = (e) => {
         setImageName(e.target.files[0]?.name)
     }
@@ -93,8 +97,22 @@ function ArtUpload() {
                     {role === 'ARTIST' ?
                         ''
                         :
-                        <div className={styles.inputContainer}>
-                            <select
+                        <div className={styles.selectContainer}>
+                            <Select
+                                showSearch
+                                size="large"
+                                placeholder="Select an artist"
+                                optionFilterProp="children"
+                                onChange={onArtistChange}
+                                filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
+                            >
+                                {artists?.map(artist => {
+                                    return (
+                                        <Option key={artist.id} value={artist.id}>{artist.name}</Option>
+                                    )
+                                })}
+                            </Select>
+                            {/* <select
                                 className={styles.dropdown}
                                 name='artist'
                                 id='artist'
@@ -112,7 +130,7 @@ function ArtUpload() {
                                         </option>
                                     )
                                 })}
-                            </select>
+                            </select> */}
                         </div>
                     }
                     <div className={styles.inputContainer}>
