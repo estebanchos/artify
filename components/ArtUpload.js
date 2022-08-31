@@ -4,6 +4,7 @@ import { DatePicker, notification, Select } from 'antd';
 import { UploadOutlined, PictureOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import styles from '../styles/ArtUpload.module.css'
 import AppContext from "../context/AppContext";
+const { Option } = Select
 
 const uploadNotification = (type) => {
     if (type === 'success') {
