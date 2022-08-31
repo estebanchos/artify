@@ -16,7 +16,15 @@ async function getAllArtists(_req, res) {
                 role: "ARTIST"
             }
         })
-        return res.status(200).json(allArtists, { success: true })
+        const returnAllArtists = allArtists.map(user => {
+            return {
+                id: user.id,
+                name: user.name,
+                suspended: user.suspended
+            }
+        })
+
+        return res.status(200).json(returnAllArtists, { success: true })
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Error reading from database", success: false });

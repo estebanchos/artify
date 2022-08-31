@@ -27,7 +27,7 @@ model Art {
   title String
   creationDate String
   imageSrc String
-  artist User @relation(fields: [artistId], references: [id])
+  artist User? @relation(fields: [artistId], references: [id])
   artistId Int 
 }
 

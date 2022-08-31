@@ -1,8 +1,9 @@
 import axios from "axios"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { DatePicker, notification } from 'antd';
 import { UploadOutlined, PictureOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import styles from '../styles/ArtUpload.module.css'
+import AppContext from "../context/AppContext";
 
 const uploadNotification = (type) => {
     if (type === 'success') {
@@ -22,6 +23,23 @@ function ArtUpload() {
     const [title, setTitle] = useState('')
     const [creationDate, setCreationDate] = useState('')
     const [imageName, setImageName] = useState(null)
+    const [artists, setArtists] = useState([])
+    const [artistId, setArtistId] = useState(null)
+
+    const value = useContext(AppContext)
+    const role = value.role
+
+    useEffect(() => {
+        fetchAllArtists()
+    }, [])
+
+    const fetchAllArtists = () => {
+        axios.get('/api/art/artist')
+            .then(res => {
+                setArtists(res.data)
+            })
+            .catch(err => console.error(err))
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -46,7 +64,8 @@ function ArtUpload() {
             {
                 title: title,
                 creationDate: creationDate,
-                imageSrc: imageSrc
+                imageSrc: imageSrc,
+                artistId: Number(artistId)
             }
         )
             .then(res => {
@@ -55,6 +74,9 @@ function ArtUpload() {
                 } else {
                     uploadNotification('error')
                 }
+                setTitle('')
+                setCreationDate('')
+                setImageName(null)
             })
             .catch(err => console.error(err))
     }
@@ -65,7 +87,28 @@ function ArtUpload() {
 
     return (
         <section className={styles.formContainer}>
+            <h2 className={styles.title}>Add a piece of art to Artify</h2>
             <form className={styles.form} onSubmit={handleSubmit}>
+                {role === 'ARTIST' ?
+                    ''
+                    :
+                    <div className={styles.inputContainer}>
+                        <select
+                            className={styles.dropdown}
+                            name='artist'
+                            id='artist'
+                            value={artistId}
+                            onChange={(e) => setArtistId(e.target.value)}
+                        >
+                            <option value='' disabled hidden>Select Artist</option>
+                            {artists?.map((artist) => {
+                                return (
+                                    <option className={styles.dropdownOptions} key={artist.id} value={artist.id}>{artist.name}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                }
                 <div className={styles.inputContainer}>
                     <label className={styles.label} htmlFor='title'>Art Title</label>
                     <input
@@ -104,7 +147,9 @@ function ArtUpload() {
                         <span className={styles.imageName}><span className={styles.successIcon}><CheckCircleOutlined /></span>{imageName}</span>
                         : ''}
                 </div>
-                <button className=''><UploadOutlined /> Upload</button>
+                <button className={styles.buttonContainer}>
+                    <UploadOutlined /> Upload
+                </button>
                 {/* <div className={styles.buttonContainer}>
                 </div> */}
             </form>

@@ -32,29 +32,29 @@ async function addArt(req, res) {
     })
     if (user.role === 'VISITOR') res.status(401).json({ message: 'Unauthorized', success: false })
 
-    // user has email and role
-    // find user to get ID
+    // assign artist ID
+    let artistId
     if (user.role === 'ARTIST') {
         const userFound = await prisma.user.findUnique({
             where: {
                 email: user.email
             },
         })
-        const artistId = userFound.id
+        artistId = Number(userFound.id)
+    } else {
+        artistId = Number(req.body.artistId)
     }
     const { title, creationDate, imageSrc } = req.body
-    // temporal id for testing with artist ldavinci
-    const artistId = 1
+    
     try {
         const newEntry = await prisma.art.create({
             data: {
                 title,
                 creationDate,
                 imageSrc,
-                artistId
+                artistId,
             }
         })
-        console.log(newEntry)
         return res.status(200).json({ success: true })
     } catch (err) {
         console.error('Request error', err)
