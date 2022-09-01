@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
+import { Novu } from '@novu/node';
 const prisma = new PrismaClient()
 
 // ****** Route + behaviour ********
@@ -45,7 +46,7 @@ async function addArt(req, res) {
         artistId = Number(req.body.artistId)
     }
     const { title, creationDate, imageSrc } = req.body
-    
+
     try {
         const newEntry = await prisma.art.create({
             data: {
@@ -55,7 +56,28 @@ async function addArt(req, res) {
                 artistId,
             }
         })
-        return res.status(200).json({ success: true })
+
+        // send notification
+        const artist = await prisma.user.findUnique({
+            where: {
+                id: artistId
+            },
+        })
+        const novu = new Novu(process.env.NOVU_TOKEN);
+        console.log(artist)
+        novu.trigger('artify', {
+            to: {
+                subscriberId: artist.email,
+                email: artist.email
+            },
+            payload: {
+                name: artist.name,
+                title: title,
+                imageSrc: imageSrc
+            }
+        });
+
+        return res.status(200).json({ newEntry, success: true })
     } catch (err) {
         console.error('Request error', err)
         res.status(500).json({ error: "Error adding entry", success: false });
