@@ -7,6 +7,9 @@ import AppContext from '../context/AppContext';
 import styles from '../styles/Login.module.css'
 
 
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Card } from 'antd';
+
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -24,11 +27,11 @@ export default function Login() {
                 password
             })
                 .then(res => {
-                    setEmail('')
-                    setPassword('')
                     setIsAuthenticated(true)
                     setRole(res.data.role)
                     redirectToDashboard(res.data.role)
+                    setEmail('')
+                    setPassword('')
                 })
                 .catch(err => console.error(err))
         }
@@ -53,70 +56,67 @@ export default function Login() {
     }
 
     return (
-        <div className={styles.login}>
+        <div style={{
+            width: '80%',
+            maxWidth: '40rem',
+            margin: '2rem auto'
+        }}>
             <h1 className={styles.loginTitle}>Log in</h1>
-            <p className={styles.loginCopy}>Sign in to access your dashboard.</p>
-            <form className={styles.loginContainer}>
-                <div className={styles.inputContainer}>
-                    <label className={styles.loginLabel} htmlFor='email'>Email</label>
-                    <input
-                        id='email'
-                        name='email'
-                        className={styles.loginInput}
-                        placeholder='you@example.com'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        autoCapitalize='none'
-                    />
-                </div>
-                <div className={styles.inputContainer}>
-                    <label className={styles.loginLabel} htmlFor='password'>Password</label>
-                    <input
-                        id='password'
-                        name='password'
-                        placeholder='******'
-                        className={styles.loginInput}
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <div className=''>
-                    <div className={`${!showPassword ? '' : 'hidden'}`} onClick={() => setShowPassword(!showPassword)}>
-                        <Image
-                            src='/icons/show.svg'
-                            alt='show password icon'
-                            // layout='fill'
-                            objectFit='cover'
-                            width='1.5rem'
-                            height='1.5rem'
+            <Card
+                style={{
+                    width: '100%',
+                    minHeight: '75vh',
+                }}
+                title="Sign in to access your dashboard"
+            >
+                <form className={styles.loginContainer}>
+                    <div className={styles.inputContainer}>
+                        <input
+                            id='email'
+                            name='email'
+                            className={styles.loginInput}
+                            placeholder='Email'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            autoCapitalize='none'
                         />
+                        <span className={styles.userIcon}><UserOutlined
+                            style={{
+                                color: 'gray',
+                            }}
+                        /></span>
                     </div>
-                    <div className={`${showPassword ? '' : 'hidden'}`} onClick={() => setShowPassword(!showPassword)}>
-                        <Image
-                            src='/icons/show.svg'
-                            alt='hide password icon'
-                            // layout='fill'
-                            objectFit='cover'
-                            width='1.5rem'
-                            height='1.5rem'
+                    <div className={styles.inputContainer}>
+                        <input
+                            id='password'
+                            name='password'
+                            placeholder='Password'
+                            className={styles.loginInput}
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
+                        <span className={styles.lockIcon}><LockOutlined
+                            style={{
+                                color: 'gray',
+                            }}
+                        /></span>
                     </div>
-                </div>
-                <button
-                    className={styles.button}
-                    onClick={handleSubmit}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
-                >
-                    Log in
-                </button>
-            </form>
-            <div className={styles.register}>
-                <p className={styles.registerCopy}>Don't yet have an account?</p>
-                <Link href='/register'>
-                    <a className={styles.registerLink}>Sign Up</a>
+                    <button
+                        className={styles.button}
+                        onClick={handleSubmit}
+                        onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+                    >
+                        Log in
+                    </button>
+                </form>
+                <div className={styles.register}>
+                    <p className={styles.registerCopy}>Don't yet have an account?</p>
+                    <Link href='/register'>
+                        <a className={styles.registerLink}>Sign Up</a>
                     </Link>
-            </div>
+                </div>
+            </Card >
         </div>
-    );
+    )
 }
