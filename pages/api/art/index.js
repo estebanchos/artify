@@ -64,7 +64,6 @@ async function addArt(req, res) {
             },
         })
         const novu = new Novu(process.env.NOVU_TOKEN);
-        console.log(artist)
         novu.trigger('artify', {
             to: {
                 subscriberId: artist.email,
